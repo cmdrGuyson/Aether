@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const axios = require("axios");
+const moment = require("moment");
 
 module.exports = {
   name: "Covid19",
@@ -73,32 +74,30 @@ module.exports = {
                 { name: "\u200B", value: "\u200B" },
                 {
                   name: "Recovered Percentage",
-                  value:
-                    Math.round(
-                      ((result.TotalRecovered / result.TotalConfirmed) * 100 +
-                        Number.EPSILON) *
-                      100
-                    ) / 100
+                  value: calculatePercentage(
+                    result.TotalRecovered,
+                    result.TotalConfirmed
+                  )
                 },
                 {
                   name: "Deaths Percentage",
-                  value:
-                    Math.round(
-                      ((result.TotalDeaths / result.TotalConfirmed) * 100 +
-                        Number.EPSILON) *
-                      100
-                    ) / 100
+                  value: calculatePercentage(
+                    result.TotalDeaths,
+                    result.TotalConfirmed
+                  )
                 }
               )
-              .setFooter(`Last updated on: ${data.data.Date}`);
+              .setFooter(
+                `Last updated : ${moment(data.data.Date, "YYYYMMDD").fromNow()}`
+              );
 
             message.channel.send(embed);
           })
           .catch(error => {
             console.log(error);
+            message.channel.send("Something went wrong!");
           });
-      }
-      else if (country === "sri-lanka") {
+      } else if (country === "sri-lanka") {
         axios
           .get("https://www.hpb.health.gov.lk/api/get-current-statistical")
           .then(data => {
@@ -133,32 +132,28 @@ module.exports = {
                 { name: "\u200B", value: "\u200B" },
                 {
                   name: "Recovered Percentage",
-                  value:
-                    Math.round(
-                      ((parseInt(result["local_recovered"], 10) / parseInt(result["local_total_cases"], 10)) * 100 +
-                        Number.EPSILON) *
-                      100
-                    ) / 100
+                  value: calculatePercentage(
+                    result["local_recovered"],
+                    result["local_total_cases"]
+                  )
                 },
                 {
                   name: "Deaths Percentage",
-                  value:
-                    Math.round(
-                      ((parseInt(result["local_deaths"], 10) / parseInt(result["local_total_cases"], 10)) * 100 +
-                        Number.EPSILON) *
-                      100
-                    ) / 100
+                  value: calculatePercentage(
+                    result["local_deaths"],
+                    result["local_total_cases"]
+                  )
                 }
               )
-              .setFooter(`Last updated on: ${result["update_date_time"]}`);
+              .setFooter(`Last updated: ${result["update_date_time"]}`);
 
             message.channel.send(embed);
           })
           .catch(error => {
             console.log(error);
+            message.channel.send("Something went wrong!");
           });
-      }
-      else if (country === "global") {
+      } else if (country === "global") {
         axios
           .get("https://www.hpb.health.gov.lk/api/get-current-statistical")
           .then(data => {
@@ -198,21 +193,17 @@ module.exports = {
                 { name: "\u200B", value: "\u200B" },
                 {
                   name: "Recovered Percentage",
-                  value:
-                    Math.round(
-                      ((parseInt(result["global_recovered"], 10) / parseInt(result["global_total_cases"], 10)) * 100 +
-                        Number.EPSILON) *
-                      100
-                    ) / 100
+                  value: calculatePercentage(
+                    result["global_recovered"],
+                    result["global_total_cases"]
+                  )
                 },
                 {
                   name: "Deaths Percentage",
-                  value:
-                    Math.round(
-                      ((parseInt(result["global_deaths"], 10) / parseInt(result["global_total_cases"], 10)) * 100 +
-                        Number.EPSILON) *
-                      100
-                    ) / 100
+                  value: calculatePercentage(
+                    result["global_deaths"],
+                    result["global_total_cases"]
+                  )
                 }
               )
               .setFooter(`Last updated on: ${result["update_date_time"]}`);
@@ -221,8 +212,12 @@ module.exports = {
           })
           .catch(error => {
             console.log(error);
+            message.channel.send("Something went wrong!");
           });
       }
     });
   }
 };
+
+let calculatePercentage = (value, total) =>
+  `${Math.round(((value / total) * 100 + Number.EPSILON) * 100) / 100}%`;

@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 module.exports = {
   name: "Hello!",
-  aliases: ["hello", "identify", "hi"],
+  aliases: ["hello", "identify", "hi", "info"],
   description: "Basic identification and greeting.",
 
   execute(message, args) {
