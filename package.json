@@ -1,0 +1,17 @@
+{
+  "name": "aether",
+  "version": "1.0.0",
+  "description": "\"Aether\" is a discord bot that gives updated information on emergency situations happening around the world",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Guyson & Neith",
+  "dependencies": {
+    "discord.js": "^12.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
