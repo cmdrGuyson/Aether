@@ -43,32 +43,32 @@ module.exports = {
               .addFields(
                 {
                   name: "Total Confirmed",
-                  value: result.TotalConfirmed,
+                  value: seperateCommas(result.TotalConfirmed),
                   inline: true
                 },
                 {
                   name: "New Confirmed",
-                  value: result.NewConfirmed,
+                  value: seperateCommas(result.NewConfirmed),
                   inline: true
                 },
                 {
                   name: "Total Deaths",
-                  value: result.TotalDeaths,
+                  value: seperateCommas(result.TotalDeaths),
                   inline: true
                 },
                 {
                   name: "New Deaths",
-                  value: result.NewDeaths,
+                  value: seperateCommas(result.NewDeaths),
                   inline: true
                 },
                 {
                   name: "Total Recovered",
-                  value: result.TotalRecovered,
+                  value: seperateCommas(result.TotalRecovered),
                   inline: true
                 },
                 {
                   name: "New Recovered",
-                  value: result.NewRecovered,
+                  value: seperateCommas(result.NewRecovered),
                   inline: true
                 },
                 { name: "\u200B", value: "\u200B" },
@@ -221,3 +221,6 @@ module.exports = {
 
 let calculatePercentage = (value, total) =>
   `${Math.round(((value / total) * 100 + Number.EPSILON) * 100) / 100}%`;
+
+let seperateCommas = x =>
+  x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
