@@ -9,7 +9,7 @@
   },
   "author": "Guyson & Neith",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "discord.js": "^12.0.2",
     "moment": "^2.29.2"
   },
